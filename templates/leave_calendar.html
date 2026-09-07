@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Leave Calendar</h2>
+            <p class="text-muted">
+                Holidays and leave calendar
+            </p>
+        </div>
+
+        <a
+            href="{% url 'apply_leave' %}"
+            class="btn btn-primary"
+        >
+            Apply Leave
+        </a>
+
+    </div>
+
+
+    <!-- Holiday Calendar -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="mb-4">
+                <i class="bi bi-calendar-event"></i>
+                2026 Holidays
+            </h5>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+                            <th>s.no</th>
+                            <th>Date</th>
+                            <th>Day</th>
+                            <th>Holiday</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>1</td>
+                            <td>15 January 2026</td>
+                            <td>Thursday</td>
+                            <td>Makara Sankranti</td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>26 January 2026</td>
+                            <td>Monday</td>
+                            <td>Republic Day</td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>4 March 2026</td>
+                            <td>Wednesday</td>
+                            <td>Holi</td>
+                        </tr>
+
+                        <tr>
+                            <td>4</td>
+                            <td>2 April 2026</td>
+                            <td>Thursday</td>
+                            <td>Ugadi</td>
+                        </tr>
+
+                        <tr>
+                            <td>5</td>
+                            <td>3 April 2026</td>
+                            <td>Friday</td>
+                            <td>Good Friday</td>
+                        </tr>
+
+                        <tr>
+                            <td>6</td>
+                            <td>1 May 2026</td>
+                            <td>Friday</td>
+                            <td>May Day</td>
+                        </tr>
+
+                        <tr>
+                            <td>7</td>
+                            <td>15 August 2026</td>
+                            <td>Saturday</td>
+                            <td>Independence Day</td>
+                        </tr>
+
+                        <tr>
+                            <td>8</td>
+                            <td>2 October 2026</td>
+                            <td>Friday</td>
+                            <td>Gandhi Jayanti</td>
+                        </tr>
+
+                        <tr>
+                            <td>9</td>
+                            <td>20 October 2026</td>
+                            <td>Tuesday</td>
+                            <td>Dussehra</td>
+                        </tr>
+
+                        <tr>
+                            <td>10</td>
+                            <td>25 December 2026</td>
+                            <td>Friday</td>
+                            <td>Christmas</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- My Leaves -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-4">
+                <i class="bi bi-calendar-check"></i>
+                My Leave Applications
+            </h5>
+
+            {% if leaves %}
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover">
+
+                        <thead>
+                            <tr>
+                                <th>Leave Type</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for leave in leaves %}
+
+                            <tr>
+
+                                <td>
+                                    {{ leave.get_leave_type_display }}
+                                </td>
+
+                                <td>
+                                    {{ leave.start_date }}
+                                </td>
+
+                                <td>
+                                    {{ leave.end_date }}
+                                </td>
+
+                                <td>
+
+                                    {% if leave.status == "Approved" %}
+
+                                        <span class="badge bg-success">
+                                            Approved
+                                        </span>
+
+                                    {% elif leave.status == "Rejected" %}
+
+                                        <span class="badge bg-danger">
+                                            Rejected
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="badge bg-warning text-dark">
+                                            Pending
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-4">
+
+                    <i class="bi bi-calendar-x fs-1"></i>
+
+                    <p class="text-muted mt-2">
+                        No leave applications found.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

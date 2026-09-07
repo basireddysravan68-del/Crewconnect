@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+
+    <!-- Header -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>
+                My Payslips
+            </h2>
+
+            <p class="text-muted">
+                View your salary information
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Employee Salary Information -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Salary Information
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+
+                <!-- Employee ID -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Employee ID
+                    </label>
+
+                    <h5>
+                        {{ employee.employee_id }}
+                    </h5>
+
+                </div>
+
+
+                <!-- Employee Name -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Employee Name
+                    </label>
+
+                    <h5>
+                        {{ employee.name }}
+                    </h5>
+
+                </div>
+
+
+                <!-- Department -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Department
+                    </label>
+
+                    <h5>
+                        {{ employee.department.name }}
+                    </h5>
+
+                </div>
+
+
+                <!-- Designation -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Designation
+                    </label>
+
+                    <h5>
+                        {{ employee.designation.name }}
+                    </h5>
+
+                </div>
+
+
+                <!-- Employment Type -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Employment Type
+                    </label>
+
+                    <h5>
+                        {{ employee.employment_type }}
+                    </h5>
+
+                </div>
+
+
+                <!-- Salary -->
+
+                <div class="col-md-4 mb-3">
+
+                    <label class="text-muted">
+                        Monthly Salary
+                    </label>
+
+                    <h5 class="text-success">
+                        ₹{{ employee.salary }}
+                    </h5>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Payslip Table -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+                Payslip History
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>Employee ID</th>
+
+                            <th>Employee Name</th>
+
+                            <th>Month</th>
+
+                            <th>Salary</th>
+
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>1</td>
+
+                            <td>
+                                {{ employee.employee_id }}
+                            </td>
+
+                            <td>
+                                {{ employee.name }}
+                            </td>
+
+                            <td>
+                                Current
+                            </td>
+
+                            <td>
+                                ₹{{ employee.salary }}
+                            </td>
+
+                            <td>
+
+                                <span class="badge bg-success">
+                                    Available
+                                </span>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4">
+        Apply Leave
+    </h2>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <!-- Leave Type -->
+                <div class="mb-3">
+
+                    <label for="leave_type" class="form-label">
+                        Leave Type
+                    </label>
+
+                    <select
+                        id="leave_type"
+                        name="leave_type"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select Leave Type
+                        </option>
+
+                        <option value="CL">
+                            Casual Leave
+                        </option>
+
+                        <option value="SL">
+                            Sick Leave
+                        </option>
+
+                        <option value="EL">
+                            Earned Leave
+                        </option>
+
+                        <option value="PL">
+                            Paid Leave
+                        </option>
+
+                        <option value="LWP">
+                            Leave Without Pay
+                        </option>
+
+                        <option value="ML">
+                            Maternity Leave
+                        </option>
+
+                        <option value="LOP">
+                            Loss of Pay
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Start Date and End Date -->
+                <div class="row">
+
+                    <!-- Start Date -->
+                    <div class="col-md-6 mb-3">
+
+                        <label for="start_date" class="form-label">
+                            Start Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="start_date"
+                            name="start_date"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- End Date -->
+                    <div class="col-md-6 mb-3">
+
+                        <label for="end_date" class="form-label">
+                            End Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="end_date"
+                            name="end_date"
+                            class="form-control"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Reason -->
+                <div class="mb-3">
+
+                    <label for="reason" class="form-label">
+                        Reason
+                    </label>
+
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Enter reason for leave"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Submit Button -->
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Apply Leave
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
