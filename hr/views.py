@@ -68,6 +68,19 @@ def employee_create(request):
         employee_id = request.POST.get("employee_id")
         name = request.POST.get("name")
         email = request.POST.get("email")
+        # Check duplicate email
+        if User.objects.filter(email=email).exists():
+            return render(
+                request,
+                "employee_add_update.html",
+                {
+                    "departments": departments,
+                    "designations": designations,
+                    "employment_types": Employee.EMPLOYMENT_TYPES,
+                    "is_update": False,
+                    "email_error": "User email already exists."
+                }
+            )
         phone = request.POST.get("phone")
 
         department_id = request.POST.get("department")

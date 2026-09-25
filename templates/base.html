@@ -37,14 +37,13 @@
 
 
 
-    {% include 'sidebar.html' %}
-    {% if is_employee %}
+   {% if request.user.is_staff %}
 
-    {% include "employee_sidebar.html" %}
+    {% include "sidebar.html" %}
 
 {% else %}
 
-    {% include "sidebar.html" %}
+    {% include "employee_sidebar.html" %}
 
 {% endif %}
 

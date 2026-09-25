@@ -149,6 +149,11 @@ Employee_add_update.py
                         value="{{ employee.email|default:'' }}"
                         required
                     >
+                    {% if email_error %}
+                    <div style="color: red; margin-top: 5px;">
+                        {{ email_error }}
+                    </div>
+                    {% endif %}
 
 
                 </div>
