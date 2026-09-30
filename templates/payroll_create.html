@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <h2 class="mb-4">
+        Add Payroll
+    </h2>
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <!-- Employee -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Employee
+                    </label>
+
+                    <select
+                        name="employee"
+                        class="form-select"
+                        required
+                    >
+
+                        <option value="">
+                            Select Employee
+                        </option>
+
+                        {% for employee in employees %}
+
+                        <option value="{{ employee.id }}">
+                            {{ employee.employee_id }} -
+                            {{ employee.name }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- Month -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Month
+                    </label>
+
+                    <input
+                        type="month"
+                        name="month"
+                        class="form-control"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Basic Salary -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Basic Salary
+                    </label>
+
+                    <input
+                        type="number"
+                        name="basic_salary"
+                        class="form-control"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Allowances -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Allowances
+                    </label>
+
+                    <input
+                        type="number"
+                        name="allowances"
+                        class="form-control"
+                        step="0.01"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <!-- Deductions -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Deductions
+                    </label>
+
+                    <input
+                        type="number"
+                        name="deductions"
+                        class="form-control"
+                        step="0.01"
+                        value="0"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Create Payroll
+                </button>
+
+                <a
+                    href="{% url 'payroll_list' %}"
+                    class="btn btn-secondary"
+                >
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

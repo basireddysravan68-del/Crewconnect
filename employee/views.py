@@ -9,7 +9,8 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from datetime import datetime
 from Crewconnect import settings
-from hr.models import Leave, Employee
+from hr.models import Leave, Employee, Department
+from hr.models import Employee, Payroll, Payslip, Designation
 
 
 # Create your views here.
@@ -65,7 +66,7 @@ def employee_profile(request):
     employee = request.user.employee
 
     return render(request, "profile.html", {
-        "employee": employee, "is_employee": True, })
+        "user": employee, "is_employee": True, })
 
 @login_required
 def apply_leave(request):
@@ -207,3 +208,129 @@ CrewConnect HR
 
     return redirect("employee_list")
 
+
+@login_required
+def my_payslips(request):
+    employees = Employee.objects.select_related(
+        "department",
+        "designation"
+    ).all().order_by("employee_id")
+
+    selected_employee = None
+    payrolls = []
+
+    employee_id = request.GET.get("employee")
+
+    if employee_id:
+        try:
+            selected_employee = Employee.objects.select_related(
+                "department",
+                "designation"
+            ).get(id=employee_id)
+
+            payrolls = Payroll.objects.filter(
+                employee=selected_employee
+            ).order_by("-month")
+
+        except Employee.DoesNotExist:
+            selected_employee = None
+
+    return render(
+        request,
+        "my_payslips.html",
+        {
+            "employees": employees,
+            "selected_employee": selected_employee,
+            "payrolls": payrolls,
+        }
+    )
+
+@login_required
+def payroll_list(request):
+
+    payrolls = Payroll.objects.select_related(
+        "employee"
+    ).order_by("-created_at")
+
+    return render(
+        request,
+        "payroll_list.html",
+        {
+            "payrolls": payrolls
+        }
+    )
+
+@login_required
+def payroll_create(request):
+
+    employees = Employee.objects.all()
+
+    if request.method == "POST":
+
+        employee_id = request.POST.get("employee")
+        month = request.POST.get("month")
+        basic_salary = request.POST.get("basic_salary")
+        allowances = request.POST.get("allowances") or 0
+        deductions = request.POST.get("deductions") or 0
+
+        employee = Employee.objects.get(id=employee_id)
+
+        Payroll.objects.create(
+            employee=employee,
+            month=month,
+            basic_salary=basic_salary,
+            allowances=allowances,
+            deductions=deductions
+        )
+
+        messages.success(
+            request,
+            "Payroll created successfully."
+        )
+
+        return redirect("payroll_list")
+
+    return render(
+        request,
+        "payroll_create.html",
+        {
+            "employees": employees
+        }
+    )
+
+@login_required
+def departments(request):
+    departments = Department.objects.all().order_by("name")
+
+    return render(
+        request,
+        "departments.html",
+        {
+            "departments": departments
+        }
+    )
+@login_required
+def designations(request):
+    designations = Designation.objects.all().order_by("name")
+
+    return render(
+        request,
+        "designations.html",
+        {"designations": designations}
+    )
+
+@login_required
+def reports(request):
+    employees_count = Employee.objects.count()
+    payroll_count = Payroll.objects.count()
+    payslip_count = Payslip.objects.count()
+
+    return render(
+        request,
+        "reports.html",
+        {
+            "employees_count": employees_count,
+            "payroll_count": payroll_count,
+            "payslip_count": payslip_count,
+        }
+    )

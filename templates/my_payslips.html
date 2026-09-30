@@ -4,133 +4,149 @@
 
 <div class="container-fluid">
 
+    <!-- Page Header -->
+    <div class="mb-4">
+        <h2>My Payslips</h2>
+        <p class="text-muted">
+            Select an employee to view salary information
+        </p>
+    </div>
 
-    <!-- Header -->
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- Employee Selection -->
+    <div class="card shadow-sm mb-4">
 
-        <div>
+        <div class="card-header">
+            <h5 class="mb-0">Select Employee</h5>
+        </div>
 
-            <h2>
-                My Payslips
-            </h2>
+        <div class="card-body">
 
-            <p class="text-muted">
-                View your salary information
-            </p>
+            <form method="GET">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Employee ID
+                        </label>
+
+                        <select
+                            name="employee"
+                            class="form-select"
+                            onchange="this.form.submit()"
+                            required
+                        >
+
+                            <option value="">
+                                Select Employee ID
+                            </option>
+
+                            {% for employee in employees %}
+
+                            <option
+                                value="{{ employee.id }}"
+                                {% if selected_employee and selected_employee.id == employee.id %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ employee.employee_id }} -
+                                {{ employee.name }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </form>
 
         </div>
 
     </div>
 
 
-    <!-- Employee Salary Information -->
+    {% if selected_employee %}
 
+    <!-- Employee Information -->
     <div class="card shadow-sm mb-4">
 
         <div class="card-header">
-
-            <h5 class="mb-0">
-                Salary Information
-            </h5>
-
+            <h5 class="mb-0">Salary Information</h5>
         </div>
-
 
         <div class="card-body">
 
             <div class="row">
 
-
-                <!-- Employee ID -->
-
                 <div class="col-md-4 mb-3">
-
                     <label class="text-muted">
                         Employee ID
                     </label>
 
-                    <h5>
-                        {{ employee.employee_id }}
-                    </h5>
-
+                    <div class="fs-5">
+                        {{ selected_employee.employee_id }}
+                    </div>
                 </div>
 
 
-                <!-- Employee Name -->
-
                 <div class="col-md-4 mb-3">
-
                     <label class="text-muted">
                         Employee Name
                     </label>
 
-                    <h5>
-                        {{ employee.name }}
-                    </h5>
-
+                    <div class="fs-5">
+                        {{ selected_employee.name }}
+                    </div>
                 </div>
 
 
-                <!-- Department -->
-
                 <div class="col-md-4 mb-3">
-
                     <label class="text-muted">
                         Department
                     </label>
 
-                    <h5>
-                        {{ employee.department.name }}
-                    </h5>
-
+                    <div class="fs-5">
+                        {{ selected_employee.department.name }}
+                    </div>
                 </div>
 
 
-                <!-- Designation -->
-
                 <div class="col-md-4 mb-3">
-
                     <label class="text-muted">
                         Designation
                     </label>
 
-                    <h5>
-                        {{ employee.designation.name }}
-                    </h5>
-
+                    <div class="fs-5">
+                        {{ selected_employee.designation.name }}
+                    </div>
                 </div>
 
 
-                <!-- Employment Type -->
-
                 <div class="col-md-4 mb-3">
-
                     <label class="text-muted">
                         Employment Type
                     </label>
 
-                    <h5>
-                        {{ employee.employment_type }}
-                    </h5>
-
+                    <div class="fs-5">
+                        {{ selected_employee.employment_type }}
+                    </div>
                 </div>
 
 
-                <!-- Salary -->
-
                 <div class="col-md-4 mb-3">
-
                     <label class="text-muted">
                         Monthly Salary
                     </label>
 
-                    <h5 class="text-success">
-                        ₹{{ employee.salary }}
-                    </h5>
-
+                    <div class="fs-5 text-success fw-bold">
+                        ₹{{ selected_employee.salary }}
+                    </div>
                 </div>
-
 
             </div>
 
@@ -139,18 +155,14 @@
     </div>
 
 
-    <!-- Payslip Table -->
-
+    <!-- Payslip History -->
     <div class="card shadow-sm">
 
         <div class="card-header">
-
             <h5 class="mb-0">
                 Payslip History
             </h5>
-
         </div>
-
 
         <div class="card-body">
 
@@ -161,55 +173,68 @@
                     <thead class="table-dark">
 
                         <tr>
-
                             <th>#</th>
-
                             <th>Employee ID</th>
-
                             <th>Employee Name</th>
-
                             <th>Month</th>
-
-                            <th>Salary</th>
-
-                            <th>Status</th>
-
+                            <th>Basic Salary</th>
+                            <th>Allowances</th>
+                            <th>Deductions</th>
+                            <th>Net Salary</th>
                         </tr>
 
                     </thead>
 
-
                     <tbody>
+
+                        {% for payroll in payrolls %}
 
                         <tr>
 
-                            <td>1</td>
-
                             <td>
-                                {{ employee.employee_id }}
+                                {{ forloop.counter }}
                             </td>
 
                             <td>
-                                {{ employee.name }}
+                                {{ payroll.employee.employee_id }}
                             </td>
 
                             <td>
-                                Current
+                                {{ payroll.employee.name }}
                             </td>
 
                             <td>
-                                ₹{{ employee.salary }}
+                                {{ payroll.month }}
                             </td>
 
                             <td>
+                                ₹{{ payroll.basic_salary }}
+                            </td>
 
-                                <span class="badge bg-success">
-                                    Available
-                                </span>
+                            <td>
+                                ₹{{ payroll.allowances }}
+                            </td>
 
+                            <td>
+                                ₹{{ payroll.deductions }}
+                            </td>
+
+                            <td class="text-success fw-bold">
+                                ₹{{ payroll.net_salary }}
                             </td>
 
                         </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="8"
+                                class="text-center text-muted">
+                                No payslip records found for this employee.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
 
                     </tbody>
 
@@ -220,6 +245,14 @@
         </div>
 
     </div>
+
+    {% else %}
+
+    <div class="alert alert-info">
+        Please select an Employee ID to view salary and payslip details.
+    </div>
+
+    {% endif %}
 
 </div>
 
